@@ -1,0 +1,28 @@
+{
+    "name": "submtd/laravel-http-request",
+    "description": "Laravel implementation of submtd/http-request",
+    "authors": [
+        {
+            "name": "Steve Harmeyer",
+            "email": "sharmeyer@dbd.net"
+        }
+    ],
+    "require": {
+        "submtd/http-request": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Submtd\\LaravelHttpRequest\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Submtd\\LaravelHttpRequest\\Providers\\LaravelHttpRequestServiceProvider"
+            ]
+        }
+    }
+}
