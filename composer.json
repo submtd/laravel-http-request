@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "submtd/http-request": "dev-master"
+        "submtd/http-request": "^1.0"
     },
     "autoload": {
         "psr-4": {
