@@ -3,8 +3,11 @@
 namespace Submtd\LaravelHttpRequest;
 
 use Submtd\HttpRequest\HttpRequest;
+use Http\Client\Common\HttpMethodsClient;
+use Http\Discovery\MessageFactoryDiscovery;
+use Http\Discovery\HttpClientDiscovery;
 
-class LaravelHttpRequest extends HttpRequest
+class LaravelHttpRequest extends HttpRequest implements \Serializable
 {
     /**
      * tries
@@ -62,5 +65,29 @@ class LaravelHttpRequest extends HttpRequest
     {
         $this->delayBetweenFails = $delay;
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            'method' => $this->getMethod(),
+            'url' => $this->getUrl(),
+            'headers' => $this->getHeaders(),
+            'body' => $this->getBody(),
+            'statusCode' => $this->getStatusCode(),
+            'response' => $this->getResponse(),
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->client = new HttpMethodsClient(HttpClientDiscovery::find(), MessageFactoryDiscovery::find());
+        $this->method = $data['method'];
+        $this->url = $data['url'];
+        $this->headers = $data['headers'];
+        $this->body = $data['body'];
+        $this->statusCode = $data['statusCode'];
+        $this->response = $data['response'];
     }
 }
