@@ -26,7 +26,7 @@ class QueuedHttpRequest implements ShouldQueue
      * @param Submtd\LaravelHttpRequest\LaravelHttpRequest $request
      * @param callable $callback
      */
-    public function __construct(LaravelHttpRequest $request, callable $callback)
+    public function __construct(LaravelHttpRequest $request, callable $callback = null)
     {
         $this->request = $request;
         $this->callback = $callback;
@@ -38,7 +38,10 @@ class QueuedHttpRequest implements ShouldQueue
     public function handle()
     {
         try {
-            call_user_func($this->callback, $this->request->request());
+            $response = $this->request->request();
+            if ($this->callback) {
+                call_user_func($this->callback, $response);
+            }
         } catch (\Exception $e) {
             if ($this->attempts() >= $this->request->getTries()) {
                 $this->fail($e);
