@@ -18,11 +18,10 @@ class LaravelHttpRequest extends HttpRequest
 
     /**
      * queues the request
-     * @param callable $callback
      */
-    public function queue(callable $callback)
+    public function queue()
     {
-        QueuedHttpRequest::dispatch($this, $callback);
+        QueuedHttpRequest::dispatch($this);
     }
 
     /**
